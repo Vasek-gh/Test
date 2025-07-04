@@ -24,11 +24,15 @@ module.exports = async ({github, context, core, exec}) => {
     }
 
     async function runGitCommand(args) {
-        const {
-            exitCode,
-            stdout,
-            stderr
-        } = await exec.getExecOutput('git', args.split(' '));
+        try {
+            const {
+                exitCode,
+                stdout,
+                stderr
+            } = await exec.getExecOutput('git', args.split(' '));
+        } catch(e) {
+            return [123, e];
+        }
 
         core.info(`${exitCode} => ${exitCode}`);
 
