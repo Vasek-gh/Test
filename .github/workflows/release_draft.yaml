@@ -11,7 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Get commit hash
-        id: test
-        run: echo "qqq"
+        with:
+          fetch-tags: true
+      - name: Fetch tags
+        run: git fetch --tags
       - uses: ./.github/actions/check
