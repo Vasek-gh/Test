@@ -3,7 +3,7 @@ module.exports = async ({github, context, core}) => {
     core.info('Test info');
     core.notice('Test notice');
 
-    const isBug = true;
+    const isBug = false;
     if (isBug) {
         core.setFailed('Fail')
     }
