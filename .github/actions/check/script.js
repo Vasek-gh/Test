@@ -1,6 +1,7 @@
 module.exports = async ({github, context, core, exec}) => {
     try {
-        const tag = await runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
+        const prevCommit = await runGitCommand('rev-list --tags --max-count=1');
+        const tag = await runGitCommand(`describe --tags ${prevCommit}`);
         const commits = await runGitCommand('log v.0.0.2..HEAD --pretty=format:%h');
 
         const isBug = false;
@@ -9,7 +10,6 @@ module.exports = async ({github, context, core, exec}) => {
         }
     }
     catch(e) {
-        core.error((e));
         core.setFailed(e);
     }
 
