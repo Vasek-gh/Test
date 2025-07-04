@@ -1,48 +1,29 @@
 module.exports = async ({github, context, core, exec}) => {
-    core.warning('Test warn');
-    core.info('Test info');
-    core.notice('Test notice');
+    try {
+        const tag = await runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
+        const commits = await runGitCommand('log v.0.0.2..HEAD --pretty=format:%h');
 
-    let output = 0;
-    let exitCode = 0;
-    [exitCode, output] = await runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
-    if (exitCode !== 0) {
-        core.error((`${exitCode} => ${output}`));
-        //core.setFailed('Fail');
-        return;
+        const isBug = false;
+        if (isBug) {
+            throw new Error("Bug")
+        }
     }
-
-    core.info(`${exitCode} => ${output}`);
-
-    [exitCode, output] = await runGitCommand('log v.0.0.2..HEAD --pretty=format:%h');
-
-    core.info(`${exitCode} => ${output}`);
-
-    const isBug = false;
-    if (isBug) {
-        core.setFailed('Fail')
+    catch(e) {
+        core.error((e));
+        core.setFailed(e);
     }
 
     async function runGitCommand(args) {
-        try {
-            const {
-                exitCode,
-                stdout,
-                stderr
-            } = await exec.getExecOutput('git', args.split(' '));
-        } catch(e) {
-            return [123, e];
-        }
-
-        core.info(`${exitCode} => ${exitCode}`);
+        const {
+            exitCode,
+            stdout,
+            stderr
+        } = await exec.getExecOutput('git', args.split(' '));
 
         if (exitCode === 0) {
-            core.info(`111: ${[0, stdout]}`);
-            return [0, stdout];
+            return stdout;
         }
 
-        core.info(`222: ${[exitCode, stderr ?? stdout]}`);
-
-        return [exitCode, stderr ?? stdout];
+        throw new Error(`The process failed with code: ${exitCode}`);
     }
 }
