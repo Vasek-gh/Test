@@ -11,4 +11,4 @@ runs:
           const exitCode = await exec.exec('echo', ['hello'])
 
           const script = require('./.github/actions/check/script.js');
-          await script({github, context, core});
+          await script({github, context, core, exec});
