@@ -5,7 +5,7 @@ module.exports = async ({github, context, core, exec}) => {
 
     const output = 0;
     const exitCode = 0;
-    [exitCode, output] = runGitCommand('describe --abbrev=0 --tags');
+    [exitCode, output] = runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
 
     console.log(`${exitCode} => ${output}`);
 
