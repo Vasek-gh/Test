@@ -1,0 +1,32 @@
+name: 'Init'
+description: ''
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Get commit hash
+      id: commit
+      run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+    - name: Get commit hash 2
+      id: commit2
+      run: git rev-parse --short HEAD
+
+    - name: Get tag
+      id: tag
+      run: echo "COMMIT_TAG=$(git tag --contains $COMMIT_HASH)" >> $GITHUB_ENV
+
+    - name: Get tag 2
+      id: tag2
+      run: git tag --contains $COMMIT_HASH
+
+    - name: Dbg2
+      id: Dbg2
+      run: git log
+
+    - name: Check tag
+      if: ${{ env.COMMIT_TAG == '' }}
+      uses: actions/github-script@v3
+      with:
+        script: core.setFailed('Commit has not tag')
