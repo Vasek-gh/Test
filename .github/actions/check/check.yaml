@@ -1,16 +1,8 @@
-name: Check pull request
-
-on:
-  workflow_dispatch:
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  Build:
-    name: check pull request
-    runs-on: ubuntu-latest
-
-    steps:
+name: 'Init'
+description: ''
+runs:
+  using: "composite"
+  steps:
     - uses: actions/checkout@v4
 
     - name: Get commit hash
