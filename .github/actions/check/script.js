@@ -3,8 +3,8 @@ module.exports = async ({github, context, core, exec}) => {
     core.info('Test info');
     core.notice('Test notice');
 
-    const output = 0;
-    const exitCode = 0;
+    let output = 0;
+    let exitCode = 0;
     [exitCode, output] = await runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
     if (exitCode !== 0) {
         core.error((`${exitCode} => ${output}`));
