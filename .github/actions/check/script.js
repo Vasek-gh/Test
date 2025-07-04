@@ -1,4 +1,6 @@
 module.exports = async ({github, context, core}) => {
+    const exec = require('@actions/exec');
+
     core.warning('Test warn');
     core.info('Test info');
     core.notice('Test notice');
