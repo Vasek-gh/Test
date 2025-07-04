@@ -1,6 +1,8 @@
 name: "Release: create drawft"
 
-on: workflow_dispatch
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   Build:
