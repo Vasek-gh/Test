@@ -5,15 +5,16 @@ module.exports = async ({github, context, core, exec}) => {
 
     const output = 0;
     const exitCode = 0;
-    //[exitCode, output] = runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
-    const res = runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
-    core.info(`q: ${res}`);
+    [exitCode, output] = await runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
+    if (exitCode !== 0) {
+        return;
+    }
 
-    /*core.info(`${exitCode} => ${output}`);
+    core.info(`${exitCode} => ${output}`);
 
-    [exitCode, output] = runGitCommand('log v.0.0.2..HEAD --pretty=format:%h');
+    [exitCode, output] = await runGitCommand('log v.0.0.2..HEAD --pretty=format:%h');
 
-    core.info(`${exitCode} => ${output}`);*/
+    core.info(`${exitCode} => ${output}`);
 
     const isBug = false;
     if (isBug) {
