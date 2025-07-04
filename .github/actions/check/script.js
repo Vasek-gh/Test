@@ -29,8 +29,6 @@ module.exports = async ({github, context, core, exec}) => {
             return [0, stdout];
         }
 
-        if (exitCode === 0) {
-            return [exitCode, stderr ?? stdout];
-        }
+        return [exitCode, stderr ?? stdout];
     }
 }
