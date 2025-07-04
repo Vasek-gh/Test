@@ -7,7 +7,7 @@ module.exports = async ({github, context, core, exec}) => {
     const exitCode = 0;
     [exitCode, output] = await runGitCommand('describe --tags $(git rev-list --tags --max-count=1)');
     if (exitCode !== 0) {
-        core.console.error((`${exitCode} => ${output}`));
+        core.error((`${exitCode} => ${output}`));
         //core.setFailed('Fail');
         return;
     }
