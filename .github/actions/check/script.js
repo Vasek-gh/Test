@@ -25,14 +25,14 @@ module.exports = async ({github, context, core, exec}) => {
             stderr
         } = await exec.getExecOutput('git', args.split(' '));
 
-        console.log(`${exitCode} => ${exitCode}`);
+        core.info(`${exitCode} => ${exitCode}`);
 
         if (exitCode === 0) {
             console.log(`111: ${[0, stdout]}`);
             return [0, stdout];
         }
 
-        console.log(`222: ${[exitCode, stderr ?? stdout]}`);
+        core.info(`222: ${[exitCode, stderr ?? stdout]}`);
 
         return [exitCode, stderr ?? stdout];
     }
