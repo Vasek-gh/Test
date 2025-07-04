@@ -8,7 +8,7 @@ on:
 
 jobs:
   Build:
-    name: Main
+    name: Check pull request
     runs-on: ubuntu-latest
 
     steps:
