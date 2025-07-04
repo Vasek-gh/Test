@@ -1,12 +1,5 @@
 name: Check pull request
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch
-
 jobs:
   Build:
     name: check pull request
