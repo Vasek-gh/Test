@@ -1,7 +1,7 @@
 module.exports = async ({github, context, core, exec}) => {
     try {
         await runGitCommand('tag');
-        await runGitCommand2("describe", "--tags", "`git rev-list --tags --max-count=1`");
+        await runGitCommand2("describe --tags `git rev-list --tags --max-count=1`");
         await runGitCommand();
         const prevCommit = await runGitCommand('rev-list --tags --max-count=1');
         const tag = await runGitCommand(`describe --tags ${prevCommit}`);
