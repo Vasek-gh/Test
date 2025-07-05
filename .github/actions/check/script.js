@@ -1,7 +1,7 @@
 module.exports = async ({github, context, core, exec}) => {
     try {
         await runGitCommand('tag');
-        await runGitCommand2("describe --tags $(git rev-list --tags --max-count=1)");
+        await execCommand("git describe --tags $(git rev-list --tags --max-count=1)");
         await runGitCommand();
         const prevCommit = await runGitCommand('rev-list --tags --max-count=1');
         const tag = await runGitCommand(`describe --tags ${prevCommit}`);
@@ -31,12 +31,12 @@ module.exports = async ({github, context, core, exec}) => {
         throw new Error(`The process failed with code: ${exitCode}`);
     }
 
-    async function runGitCommand2(...args) {
+    async function execCommand(command) {
         const {
             exitCode,
             stdout,
             stderr
-        } = await exec.getExecOutput('git', args);
+        } = await exec.getExecOutput(command);
 
         if (exitCode === 0) {
             core.info(`Res ${stdout}`);
