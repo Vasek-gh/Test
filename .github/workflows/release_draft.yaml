@@ -14,8 +14,8 @@ jobs:
         with:
           fetch-tags: true
 
-      # - name: Fetch tags
-      #   run: git fetch --tags
+      - name: Fetch tags
+        run: git fetch --tags
 
       # - id: create_notes
       #   name: Create notes
