@@ -17,21 +17,19 @@ jobs:
       # - name: Fetch tags
       #   run: git fetch --tags
 
-      # - id: get_last_tag
-      #   name: Get last tag
-      #   run: git describe --tags $(git rev-list --tags --max-count=1)
-
       - id: get_last_release_tag
         name: Get last release tag
         run: echo "lastTag=$(gh release list --json tagName --limit 1 --template '{{range .}}{{.tagName}}{{end}}')" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
 
+      - id: fetch_commits
+        name: Fetch commits
+        run: git fetch --shallow-exclude=${{ steps.get_last_release_tag.outputs.lastTag }}
+
       - id: get_commits
         name: Get commits
-        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..HEAD --pretty=format:%h)" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ github.token }}
+        run: echo "commitList=$(git log --pretty=format:%h)" >> $GITHUB_OUTPUT
 
       - name: Test
         run: echo ${{ steps.get_commits.outputs.commitList }}
