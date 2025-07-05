@@ -15,4 +15,6 @@ jobs:
           fetch-tags: true
       - name: Fetch tags
         run: git fetch --tags
+      - name: Get last tag
+        run: git describe --tags $(git rev-list --tags --max-count=1)
       - uses: ./.github/actions/check
