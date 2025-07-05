@@ -1,10 +1,49 @@
-module.exports = async ({github, context, core}) => {
-    core.warning('Test warn');
-    core.info('Test info');
-    core.notice('Test notice');
+module.exports = async ({github, context, core, exec}) => {
+    try {
+        await runGitCommand('tag');
+        await execCommand(`gh pr list --state merged --search "9b41c28 2762ccb" --json "id,number,url,closingIssuesReferences"`);
+        await execCommand("git describe --tags $(git rev-list --tags --max-count=1)");
 
-    const isBug = true;
-    if (isBug) {
-        core.setFailed('Fail')
+        const prevCommit = await runGitCommand('rev-list --tags --max-count=1');
+        const tag = await runGitCommand(`describe --tags ${prevCommit}`);
+        const commits = await runGitCommand('log v.0.0.2..HEAD --pretty=format:%h');
+
+        const isBug = false;
+        if (isBug) {
+            throw new Error("Bug")
+        }
+    }
+    catch(e) {
+        core.setFailed(e);
+    }
+
+    async function runGitCommand(args) {
+        const {
+            exitCode,
+            stdout,
+            stderr
+        } = await exec.getExecOutput('git', args.split(' '));
+
+        if (exitCode === 0) {
+            core.info(`Res ${stdout}`);
+            return stdout;
+        }
+
+        throw new Error(`The process failed with code: ${exitCode}`);
+    }
+
+    async function execCommand(command) {
+        const {
+            exitCode,
+            stdout,
+            stderr
+        } = await exec.getExecOutput(command);
+
+        if (exitCode === 0) {
+            core.info(`Res ${stdout}`);
+            return stdout;
+        }
+
+        throw new Error(`The process failed with code: ${exitCode}`);
     }
 }
