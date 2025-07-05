@@ -12,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-tags: true
+          ref: main
+          #fetch-tags: true
 
       - name: Fetch tags
         run: git fetch --tags
@@ -27,11 +28,15 @@ jobs:
       #       const script = require('./.github/scripts/commit_history.js');
       #       await script({core, exec});
 
+      # - id: get_last_release_tag
+      #   name: Get last release tag
+      #   run: echo "lastTag=$(gh release list --json tagName --limit 1 --template '{{range .}}{{.tagName}}{{end}}')" >> $GITHUB_OUTPUT
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+
       - id: get_last_release_tag
         name: Get last release tag
-        run: echo "lastTag=$(gh release list --json tagName --limit 1 --template '{{range .}}{{.tagName}}{{end}}')" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ github.token }}
+        run: echo "lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
 
       - id: fetch_commits
         name: Fetch commits
