@@ -37,6 +37,9 @@ jobs:
         name: Fetch commits
         run: git fetch --shallow-exclude=${{ steps.get_last_release_tag.outputs.lastTag }}
 
+      - name: Qqqq
+        run: git log --pretty=format:%h
+
       - id: get_commits
         name: Get commits
         run: echo "commitList=$(git log --pretty=format:%h | paste -sd ',')" >> $GITHUB_OUTPUT
