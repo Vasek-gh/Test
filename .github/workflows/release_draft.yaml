@@ -55,4 +55,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
+      - id: get_pull_request_list
+        name: Get pull request list
+        run: gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       #- uses: ./.github/actions/check
