@@ -14,12 +14,12 @@ jobs:
         with:
           fetch-tags: true
 
-      - name: Fetch tags
-        run: git fetch --tags
+      # - name: Fetch tags
+      #   run: git fetch --tags
 
-      - id: get_last_tag
-        name: Get last tag
-        run: git describe --tags $(git rev-list --tags --max-count=1)
+      # - id: get_last_tag
+      #   name: Get last tag
+      #   run: git describe --tags $(git rev-list --tags --max-count=1)
 
       - id: get_last_release_tag
         name: Get last release tag
@@ -27,6 +27,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
+      - id: get_commits
+        name: Get commits
+        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..HEAD --pretty=format:%h)" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Test
-        run: echo ${{ steps.get_last_release_tag.outputs.lastTag }}
+        run: echo ${{ steps.get_commits.outputs.commitList }}
       #- uses: ./.github/actions/check
