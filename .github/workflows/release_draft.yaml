@@ -42,13 +42,17 @@ jobs:
         name: Fetch commits
         run: git fetch --shallow-exclude=${{ steps.get_last_release_tag.outputs.lastTag }}
 
-      - name: Qqqq
-        run: git log --pretty=format:%h
-
       - id: get_commits
         name: Get commits
-        run: echo "commitList=$(git log --pretty=format:%h | paste -sd ',')" >> $GITHUB_OUTPUT
+        run: echo "commitList=$(git log --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
 
       - name: Test
         run: echo ${{ steps.get_commits.outputs.commitList }}
+
+      - id: get_pull_request_list
+        name: Get pull request list
+        run: echo "commitList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       #- uses: ./.github/actions/check
