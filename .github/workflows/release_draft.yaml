@@ -19,12 +19,12 @@ jobs:
 
       - id: get_last_tag
         name: Get last tag
-        run: git describe --tags $(git rev-list --tags --max-count=1) >> $GITHUB_OUTPUT
+        run: git describe --tags $(git rev-list --tags --max-count=1)
 
       - id: get_last_release_tag
         name: Get last release tag
-        run: gh release list --json tagName --limit 1 >> $GITHUB_OUTPUT
+        run: gh release list --json tagName --limit 1
 
       - name: Test
-        run: echo "${{ steps.get_last_release_tag.outputs }}"
+        run: echo ${{ steps.get_last_release_tag.outputs.stdout }}
       #- uses: ./.github/actions/check
