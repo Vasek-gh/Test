@@ -1,28 +1,8 @@
-module.exports = async ({core, exec}) => {
+module.exports = async ({core, prListJson}) => {
     try {
-
-        const lastTag = await execCommand(`gh release list --json tagName --limit 1 --template '{{range .}}{{.tagName}}{{end}}'`);
-        core.info(`lastTag: ${lastTag}`);
-        await execCommand(`git fetch --shallow-exclude=${lastTag}`);
-        const commits = await execCommand("git log --pretty=format:%h)");
-        core.info(`Commits: ${commits}`);
+        core.info(`Json ${prListJson}`);
     }
     catch(e) {
         core.setFailed(e);
-    }
-
-    async function execCommand(command) {
-        const {
-            exitCode,
-            stdout,
-            stderr
-        } = await exec.getExecOutput(command);
-
-        if (exitCode === 0) {
-            core.info(`Res ${stdout}`);
-            return stdout;
-        }
-
-        throw new Error(`The process failed with code: ${exitCode}`);
     }
 }

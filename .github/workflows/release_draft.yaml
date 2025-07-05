@@ -18,22 +18,6 @@ jobs:
       - name: Fetch tags
         run: git fetch --tags
 
-      # - id: create_notes
-      #   name: Create notes
-      #   uses: actions/github-script@v7
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     script: |
-      #       const script = require('./.github/scripts/commit_history.js');
-      #       await script({core, exec});
-
-      # - id: get_last_release_tag
-      #   name: Get last release tag
-      #   run: echo "lastTag=$(gh release list --json tagName --limit 1 --template '{{range .}}{{.tagName}}{{end}}')" >> $GITHUB_OUTPUT
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-
       - id: get_last_release_tag
         name: Get last release tag
         run: echo "lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
@@ -46,16 +30,21 @@ jobs:
         name: Get commits
         run: echo "commitList=$(git log --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
 
-      - name: Test
-        run: echo ${{ steps.get_commits.outputs.commitList }}
-
       - id: get_pull_request_list
         name: Get pull request list
         run: echo "prList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Test
-        run: echo ${{ steps.get_pull_request_list.outputs.prList }}
+      # - name: Test
+      #   run: echo ${{ steps.get_pull_request_list.outputs.prList }}
+
+      - id: create_notes
+        name: Create notes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./.github/scripts/commit_history.js');
+            await script({core, "${{ steps.get_pull_request_list.outputs.prList }}"});
 
       #- uses: ./.github/actions/check
