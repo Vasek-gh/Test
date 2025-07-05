@@ -51,14 +51,11 @@ jobs:
 
       - id: get_pull_request_list
         name: Get pull request list
-        run: echo "commitList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
+        run: echo "prList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - id: get_pull_request_list
-        name: Get pull request list
-        run: gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit"
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Test
+        run: echo ${{ steps.get_pull_request_list.outputs.prList }}
 
       #- uses: ./.github/actions/check
