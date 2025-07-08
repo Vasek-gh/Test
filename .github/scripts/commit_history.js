@@ -3,7 +3,7 @@ module.exports = async ({core, exec, commitList}) => {
         core.info(`commitList ${commitList}`);
 
         const prList = await execCommand(`gh pr list --state closed --search "${commitList}" --json "number,url,title,closingIssuesReferences,mergeCommit"`);
-        const obj = JSON.parse(json);
+        const obj = JSON.parse(prList);
         core.info(`prList ${prList}`);
         core.info(`obj ${obj}`);
 
