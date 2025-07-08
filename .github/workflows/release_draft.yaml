@@ -34,20 +34,22 @@ jobs:
 
       - id: get_commits
         name: Get commits
-        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..${{ steps.get_main_ref.outputs.mainRef }} --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
+        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..${{ steps.get_main_ref.outputs.mainRef }} --pretty=format:%h)" >> $GITHUB_OUTPUT
 
-      - id: get_pull_request_list
-        name: Get pull request list
-        run: echo "prList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # - id: get_pull_request_list
+      #   name: Get pull request list
+      #   run: echo "prList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
 
       - id: create_notes
         name: Create notes
         uses: actions/github-script@v7
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           script: |
             const script = require('./.github/scripts/commit_history.js');
-            await script({core, prListJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
+            await script({core, prListJson: '${{ steps.get_commits.outputs.commitList }}'});
 
       #- uses: ./.github/actions/check
