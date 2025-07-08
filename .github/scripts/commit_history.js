@@ -3,13 +3,13 @@ module.exports = async ({core, exec, commitList}) => {
         core.info(`commitList ${commitList}`);
 
         const prList = await execCommand(`gh pr list --state closed --search "${commitList}" --json "number,url,title,closingIssuesReferences,mergeCommit"`);
-        const obj = JSON.parse(prList);
-        core.info(`prList ${prList}`);
-        core.info(`obj ${obj}`);
+        const prListArray = JSON.parse(prList);
+        //core.info(`prList ${prList}`);
+        //core.info(`obj ${obj}`);
 
-        /*for (const pr of prList) {
+        for (const pr of prListArray) {
             core.info(`found pr: ${pr.number} ${pr.title} ${pr.url}`);
-        }*/
+        }
     }
     catch(e) {
         core.setFailed(e);
@@ -23,7 +23,7 @@ module.exports = async ({core, exec, commitList}) => {
         } = await exec.getExecOutput(command);
 
         if (exitCode === 0) {
-            core.info(`Res ${stdout}`);
+            //core.info(`Res ${stdout}`);
             return stdout;
         }
 
