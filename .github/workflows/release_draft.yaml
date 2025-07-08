@@ -47,6 +47,6 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/commit_history.js');
-            await script({core, commitList: '${{ steps.get_commits.outputs.commitList }}'});
+            await script({core, exec, commitList: '${{ steps.get_commits.outputs.commitList }}'});
 
       #- uses: ./.github/actions/check

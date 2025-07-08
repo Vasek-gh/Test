@@ -1,4 +1,4 @@
-module.exports = async ({core, commitList}) => {
+module.exports = async ({core, exec, commitList}) => {
     try {
         core.info(`commitList ${commitList}`);
 
