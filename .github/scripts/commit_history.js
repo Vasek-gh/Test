@@ -3,7 +3,11 @@ module.exports = async ({core, exec, commitList}) => {
         core.info(`commitList ${commitList}`);
 
         const prList = await execCommand(`gh pr list --state closed --search "${commitList}" --json "number,url,title,closingIssuesReferences,mergeCommit"`);
-        core.info(`prList ${prList}`);
+        //core.info(`prList ${prList}`);
+
+        for (const pr of prList) {
+            core.info(`found pr: ${pr.number} ${pr.title} ${pr.url}`);
+        }
     }
     catch(e) {
         core.setFailed(e);
