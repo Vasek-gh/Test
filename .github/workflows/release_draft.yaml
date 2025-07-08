@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
           #fetch-tags: true
 
       - name: Fetch tags
@@ -28,16 +27,13 @@ jobs:
 
       - id: get_commits
         name: Get commits
-        run: echo "commitList=$(git log --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
+        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..main --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
 
       - id: get_pull_request_list
         name: Get pull request list
         run: echo "prList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,closingIssuesReferences,mergeCommit")" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
-
-      # - name: Test
-      #   run: echo ${{ steps.get_pull_request_list.outputs.prList }}
 
       - id: create_notes
         name: Create notes
