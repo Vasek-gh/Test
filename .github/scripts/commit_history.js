@@ -1,7 +1,6 @@
 module.exports = async ({core, commitList}) => {
     try {
         core.info(`commitList ${commitList}`);
-        commitList = commitList.split("\n").concat(" ");
 
         const prList = execCommand(`gh pr list --state closed --search "${commitList}" --json "number,url,title,closingIssuesReferences,mergeCommit"`);
         core.info(`prList ${prList}`);

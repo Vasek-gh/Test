@@ -29,12 +29,9 @@ jobs:
         name: Get main branch ref
         run: echo "mainRef=$(git ls-remote --heads origin main | cut -f 1)" >> $GITHUB_OUTPUT
 
-      - name: Show branch
-        run: git branch
-
       - id: get_commits
         name: Get commits
-        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..${{ steps.get_main_ref.outputs.mainRef }} --pretty=format:%h)" >> $GITHUB_OUTPUT
+        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..${{ steps.get_main_ref.outputs.mainRef }} --pretty=format:%h) | paste -sd ' '" >> $GITHUB_OUTPUT
 
       # - id: get_pull_request_list
       #   name: Get pull request list
@@ -50,6 +47,6 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/commit_history.js');
-            await script({core, prListJson: '${{ steps.get_commits.outputs.commitList }}'});
+            await script({core, prListJson: '${{ steps.get_commits.outputs.prList }}'});
 
       #- uses: ./.github/actions/check
