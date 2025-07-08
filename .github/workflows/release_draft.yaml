@@ -25,9 +25,12 @@ jobs:
         name: Fetch commits
         run: git fetch --shallow-exclude=${{ steps.get_last_release_tag.outputs.lastTag }}
 
+      - name: Show branch
+        run: git branch
+
       - id: get_commits
         name: Get commits
-        run: echo "commitList=$(git log ${{ steps.get_last_release_tag.outputs.lastTag }}..main --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
+        run: echo "commitList=$(git log "${{ steps.get_last_release_tag.outputs.lastTag }}..main" --pretty=format:%h | paste -sd ' ')" >> $GITHUB_OUTPUT
 
       - id: get_pull_request_list
         name: Get pull request list
