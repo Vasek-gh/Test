@@ -5,6 +5,7 @@ module.exports = async ({core, exec, commitList}) => {
         const prList = await execCommand(`gh pr list --state closed --search "${commitList}" --json "number,url,title,closingIssuesReferences,mergeCommit"`);
         const prListArray = JSON.parse(prList);
         //core.info(`prList ${prList}`);
+
         //core.info(`obj ${obj}`);
 
         for (const pr of prListArray) {
