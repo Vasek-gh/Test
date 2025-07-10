@@ -47,6 +47,6 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/commit_history.js');
-            await script({core, version: '2.2.2' prJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
+            await script({core, version: '2.2.2', prJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
 
       #- uses: ./.github/actions/check
