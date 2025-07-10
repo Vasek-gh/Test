@@ -1,4 +1,4 @@
-module.exports = async ({core, exec, prJson}) => {
+module.exports = async ({core, prJson}) => {
     try {
         const prList = JSON.parse(prJson);
 

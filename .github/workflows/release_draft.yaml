@@ -35,7 +35,7 @@ jobs:
 
       - id: get_pull_request_list
         name: Get pull request list
-        run: echo "prList=$(gh pr list --state closed --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,labels,author")" >> $GITHUB_OUTPUT
+        run: echo "prList=$(gh pr list --state merged --search "${{ steps.get_commits.outputs.commitList }}" --json "number,url,title,labels,author")" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -47,6 +47,6 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/commit_history.js');
-            await script({core, exec, commitList: '${{ steps.get_pull_request_list.outputs.prList }}'});
+            await script({core, prJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
 
       #- uses: ./.github/actions/check
