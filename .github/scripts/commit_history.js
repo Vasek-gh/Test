@@ -1,9 +1,9 @@
-module.exports = async ({core, prJson}) => {
+module.exports = async ({core, version, prJson}) => {
     try {
         const prList = JSON.parse(prJson);
 
         const lines = [];
-        lines.push(`## 2.2.2(${new Date().toISOString().split('T')[0]})`);
+        lines.push(`## ${version}(${new Date().toISOString().split('T')[0]})`);
         lines.push(`### Changes`);
         lines.push(...prFilter(prList, pr => hasLabel(pr, "feature") || hasLabel(pr, "enhancement")).map(createPrRow));
         lines.push(`### Fixes`);
