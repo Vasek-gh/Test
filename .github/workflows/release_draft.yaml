@@ -45,4 +45,4 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/commit_history.js');
-            await script({core, currentVersion: ${{ steps.get_last_release_tag.outputs.lastTag }}, releaseType: 'patch', prJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
+            await script({core, currentVersion: '${{ steps.get_last_release_tag.outputs.lastTag }}', releaseType: 'patch', prJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
