@@ -46,9 +46,11 @@ module.exports = async ({core, currentVersion, releaseType, prJson}) => {
     }
 
     function bumpVersion(currentVersion, releaseType) {
-        const version = currentVersion.startsWith('v')
-            ? currentVersion.substring(1)
-            : currentVersion;
+        const version = !currentVersion.startsWith('v')
+            ? currentVersion
+            : !currentVersion.startsWith('v.')
+                ? currentVersion.substring(1)
+                : currentVersion.substring(2);
 
         const parts = version.split('.').map(Number);
         if (parts.length !== 3 || parts.some(isNaN)) {
