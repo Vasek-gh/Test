@@ -2,6 +2,15 @@ name: "Create release branch"
 
 on:
   workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        required: true
+        description: Release type
+        options:
+        - patch
+        - minor
+        - major
 
 permissions:
   contents: write
@@ -51,7 +60,7 @@ jobs:
             return await script({
               core: core,
               currentVersion: '${{ steps.get_last_release_tag.outputs.lastTag }}',
-              releaseType: 'patch',
+              releaseType: '${{ github.event.inputs.release_type }}',
               prJson: '${{ steps.get_pull_request_list.outputs.prList }}'
             });
 
@@ -69,6 +78,3 @@ jobs:
 
       - name: Push branch
         run: git push origin release
-
-      # - name: Echo notes
-      #   run: echo "${{steps.create_notes.outputs.result}}"
