@@ -1,7 +1,6 @@
 name: "Release: create drawft"
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -43,6 +42,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         with:
+          result-encoding: string
           script: |
-            const script = require('./.github/scripts/commit_history.js');
-            await script({core, currentVersion: '${{ steps.get_last_release_tag.outputs.lastTag }}', releaseType: 'patch', prJson: '${{ steps.get_pull_request_list.outputs.prList }}'});
+            const script = require('./.github/scripts/create_notes.js');
+            return await script({
+              core: core,
+              currentVersion: '${{ steps.get_last_release_tag.outputs.lastTag }}',
+              releaseType: 'patch',
+              prJson: '${{ steps.get_pull_request_list.outputs.prList }}'
+            });
