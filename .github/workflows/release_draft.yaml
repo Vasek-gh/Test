@@ -53,10 +53,13 @@ jobs:
             });
 
       - name: Create branch
-        run: get checkout -b release
+        run: git checkout -b release
 
       - name: Update change log
         run: echo -e "${{steps.create_notes.outputs.result}}\n$(cat CHANGELOG.md)" > CHANGELOG.md
+
+      - name: Create branch
+        run: git push origin release
 
       # - name: Echo notes
       #   run: echo "${{steps.create_notes.outputs.result}}"
