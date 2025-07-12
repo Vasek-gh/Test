@@ -61,7 +61,10 @@ jobs:
       - name: Update change log
         run: echo -e "${{steps.create_notes.outputs.result}}\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
-      - name: Create branch
+      - name: Commit change log
+        run: git commit -a -m 'change log'
+
+      - name: Push branch
         run: git push origin release
 
       # - name: Echo notes
