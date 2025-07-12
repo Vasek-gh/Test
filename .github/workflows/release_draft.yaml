@@ -51,6 +51,7 @@ jobs:
               releaseType: 'patch',
               prJson: '${{ steps.get_pull_request_list.outputs.prList }}'
             });
+            core.setOutput('result', result);
 
       - name: Echo notes
         run: echo "${{steps.set-create_notes.outputs.result}}"
