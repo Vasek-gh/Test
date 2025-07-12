@@ -5,7 +5,9 @@ runs:
   steps:
     - name: Check tag
       uses: actions/github-script@v7
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         script: |
-          const script = require('./.github/actions/check/script.js')
-          await script({github, context, core})
+          const script = require('./.github/actions/check/script.js');
+          await script({github, context, core, exec});
