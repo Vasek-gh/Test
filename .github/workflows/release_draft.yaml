@@ -52,5 +52,11 @@ jobs:
               prJson: '${{ steps.get_pull_request_list.outputs.prList }}'
             });
 
-      - name: Echo notes
-        run: echo "${{steps.create_notes.outputs.result}}"
+      - name: Create branch
+        run: get checkout -b release
+
+      - name: Update change log
+        run: echo -e "${{steps.create_notes.outputs.result}}\n$(cat CHANGELOG.md)" > CHANGELOG.md
+
+      # - name: Echo notes
+      #   run: echo "${{steps.create_notes.outputs.result}}"
