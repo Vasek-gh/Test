@@ -45,13 +45,12 @@ jobs:
           result-encoding: string
           script: |
             const script = require('./.github/scripts/create_notes.js');
-            const result = await script({
+            return await script({
               core: core,
               currentVersion: '${{ steps.get_last_release_tag.outputs.lastTag }}',
               releaseType: 'patch',
               prJson: '${{ steps.get_pull_request_list.outputs.prList }}'
             });
-            core.setOutput('result', result);
 
       - name: Echo notes
-        run: echo "${{steps.set-create_notes.outputs.result}}"
+        run: echo "${{steps.create_notes.outputs.result}}"
