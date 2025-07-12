@@ -1,0 +1,12 @@
+name: "Release: create drawft"
+
+on:  
+  workflow_dispatch:
+
+jobs:
+  Build:
+    name: Main
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
