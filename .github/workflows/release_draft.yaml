@@ -45,7 +45,7 @@ jobs:
           result-encoding: string
           script: |
             const script = require('./.github/scripts/create_notes.js');
-            return await script({
+            const result = await script({
               core: core,
               currentVersion: '${{ steps.get_last_release_tag.outputs.lastTag }}',
               releaseType: 'patch',
