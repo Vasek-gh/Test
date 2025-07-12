@@ -1,4 +1,4 @@
-name: "Release: create drawft"
+name: "Create release branch"
 
 on:
   workflow_dispatch:
