@@ -3,6 +3,9 @@ name: "Create release branch"
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   Build:
     name: Main
