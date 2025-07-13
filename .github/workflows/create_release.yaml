@@ -32,7 +32,7 @@ jobs:
             const fs = require('node:fs');
             const script = require('./.github/scripts/get_notes_info.js');
 
-            return await script({
+            await script({
               core: core,
               fs: fs,
               changelog: '${{ steps.read_changelog.outputs.changelog }}'

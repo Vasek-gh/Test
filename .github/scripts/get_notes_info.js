@@ -19,9 +19,11 @@ module.exports = async ({core, fs}) => {
                 .join("\n")
         }
 
-        core.info(result);
+        core.info(result.version);
+        core.info(result.notes);
 
-        return result;
+        core.setOutput('version', result.version);
+        core.setOutput('notes', result.notes);
     }
     catch(e) {
         core.setFailed(e);
