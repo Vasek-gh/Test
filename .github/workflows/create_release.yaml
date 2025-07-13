@@ -27,7 +27,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         with:
-          result-encoding: string
+          result-encoding: json
           script: |
             const fs = require('node:fs');
             const script = require('./.github/scripts/get_notes_info.js');
