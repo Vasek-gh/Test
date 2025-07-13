@@ -21,9 +21,9 @@ jobs:
         name: Get last release tag
         run: echo "lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
 
-      - id: read_changelog
-        name: Update change log
-        run: echo "changelog=$(cat CHANGELOG.md)" >> $GITHUB_OUTPUT
+      # - id: read_changelog
+      #   name: Update change log
+      #   run: echo "changelog=$(cat CHANGELOG.md)" >> $GITHUB_OUTPUT
 
       - id: get_notes_info
         name: Get notes info
@@ -33,9 +33,11 @@ jobs:
         with:
           result-encoding: string
           script: |
+            const fs = require('node:fs');
             const script = require('./.github/scripts/get_notes_info.js');
             return await script({
               core: core,
+              fs: fs,
               changelog: '${{ steps.read_changelog.outputs.changelog }}'
             });
 
