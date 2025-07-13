@@ -1,8 +1,6 @@
-module.exports = async ({core, fs, changelog}) => {
+module.exports = async ({core, fs}) => {
     try {
         const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-        console.log(changelog);
-        return;
 
         const matches = [...changelog.matchAll("## ([0-9].[0-9].[0-9])")];
         if (!matches) {
