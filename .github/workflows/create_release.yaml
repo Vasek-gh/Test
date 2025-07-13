@@ -31,7 +31,7 @@ jobs:
           echo ${{ steps.get_current_hash.outputs.lastCurrentHash }}
 
       - name: Check new commits
-        if: ${{ steps.get_last_tag_hash.outputs.lastTagHash }} == ${{ steps.get_current_hash.outputs.lastCurrentHash }}
+        if: ${{ steps.get_last_tag_hash.outputs.lastTagHash == steps.get_current_hash.outputs.lastCurrentHash }}
         uses: actions/github-script@v7
         with:
           script: core.setFailed('The current commit contains the tag')
