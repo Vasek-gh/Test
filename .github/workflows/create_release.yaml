@@ -39,8 +39,7 @@ jobs:
               changelog: '${{ steps.read_changelog.outputs.changelog }}'
             });
 
-      - id:
-        name: Echo dgb
+      - name: Echo dgb
         run:  |
           echo ${{ steps.get_last_release_tag.outputs.lastTag }}
           echo ${{ steps.get_notes_info.outputs.result.version }}
