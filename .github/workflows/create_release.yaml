@@ -43,4 +43,4 @@ jobs:
           echo ${{ steps.get_last_release_tag.outputs.lastTag }}
           echo ${{ steps.get_notes_info.outputs.result }}
           echo ${{ steps.get_notes_info.outputs.version }}
-          echo ${{ steps.get_notes_info.outputs.result.notes }}
+          echo ${{ steps.get_notes_info.outputs.notes }}
