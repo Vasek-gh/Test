@@ -57,6 +57,6 @@ jobs:
           cat ${{ steps.prepare_notes.outputs.notes }}
 
       - name: Create release
-        run: gh release create v${{ steps.prepare_notes.outputs.version }} -F ${{ steps.prepare_notes.outputs.notes }} ./README.md
+        run: gh release create v${{ steps.prepare_notes.outputs.version }} --title ${{ steps.prepare_notes.outputs.version }} --notes-file ${{ steps.prepare_notes.outputs.notes }} --fail-on-no-commits ./README.md
         env:
           GH_TOKEN: ${{ github.token }}
