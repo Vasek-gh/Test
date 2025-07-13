@@ -25,11 +25,6 @@ jobs:
         name: Get current hash
         run: echo "lastCurrentHash=$(git log --pretty=format:%H)" >> $GITHUB_OUTPUT
 
-      - name: Echo dgb
-        run:  |
-          echo ${{ steps.get_last_tag_hash.outputs.lastTagHash }}
-          echo ${{ steps.get_current_hash.outputs.lastCurrentHash }}
-
       - name: Check new commits
         if: ${{ steps.get_last_tag_hash.outputs.lastTagHash == steps.get_current_hash.outputs.lastCurrentHash }}
         uses: actions/github-script@v7
@@ -60,3 +55,8 @@ jobs:
           echo ${{ steps.prepare_notes.outputs.version }}
           echo ${{ steps.prepare_notes.outputs.notes }}
           cat ${{ steps.prepare_notes.outputs.notes }}
+
+      - name: Create release
+        run: gh release create v${{ steps.prepare_notes.outputs.version }} -F ${{ steps.prepare_notes.outputs.notes }} ./README.md
+        env:
+          GH_TOKEN: ${{ github.token }}
