@@ -38,7 +38,7 @@ jobs:
 
       - id: get_last_tag
         name: Get last tag
-        run: echo "lastTag=$(git describe --tags ${{ steps.get_last_tag_hash.outputs.lastTagHash }}" >> $GITHUB_OUTPUT
+        run: echo "lastTag=$(git describe --tags ${{ steps.get_last_tag_hash.outputs.lastTagHash }})" >> $GITHUB_OUTPUT
 
       - id: prepare_notes
         name: Prepare notes
