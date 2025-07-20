@@ -15,6 +15,9 @@ jobs:
       run: |
         echo "vscode_version=`curl --silent https://update.code.visualstudio.com/api/releases/stable | jq -r '.[0]'`" >> $GITHUB_OUTPUT
 
+    - name: Show version
+      run: echo "${{ steps.vscode_last_release.outputs.vscode_version }}"
+
   Build:
     name: Build ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
