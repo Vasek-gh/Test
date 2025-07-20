@@ -4,10 +4,18 @@ module.exports = async ({core, currentVersion, releaseType, prJson}) => {
 
         const lines = [];
         lines.push(`## ${bumpVersion(currentVersion, releaseType)}(${new Date().toISOString().split('T')[0]})`);
-        lines.push(`### Changes`);
-        lines.push(...prFilter(prList, pr => hasLabel(pr, "feature") || hasLabel(pr, "enhancement")).map(createPrRow));
-        lines.push(`### Fixes`);
-        lines.push(...prFilter(prList, pr => hasLabel(pr, "bug fix")).map(createPrRow));
+
+        const changes = prFilter(prList, pr => hasLabel(pr, "feature") || hasLabel(pr, "enhancement")).map(createPrRow);
+        if (changes.length > 0) {
+            lines.push(`### Changes`);
+            lines.push(...changes);
+        }
+
+        const fixes = prFilter(prList, pr => hasLabel(pr, "bug fix")).map(createPrRow);
+        if (fixes.length > 0) {
+            lines.push(`### Fixes`);
+            lines.push(...fixes);
+        }
 
         const result = lines.join(`\n`)
         core.info(result);
